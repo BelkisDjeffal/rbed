@@ -1,3 +1,21 @@
+## Table of Contents
+- [General Description](#general-description)
+    - [Overview](#overview)
+    - [Customized PostgreSQL Image](#customized-postgresql-image)
+    - [Using the Provided TPCH Database](#using-the-provided-tpch-database)
+    - [Working with Your Own Data](#working-with-your-own-data)
+- [Energy Consumption Tools](#energy-consumption-tools)
+- [How to Use the Environment](#how-to-use-the-environment)
+    - [Step 1: Clone the Repository](#step-1-clone-the-repository)
+    - [Step 2: Set Up the Environment](#step-2-set-up-the-environment)
+        - [Prerequisites](#prerequisites)
+        - [Preparing the Environment](#preparing-the-environment)
+        - [Using the Environment](#using-the-environment)
+    - [Step 3: Accessing PostgreSQL and Running Queries](#step-3-accessing-postgresql-and-running-queries)
+    - [Step 4: Experimenting with Energy Consumption Measurement](#step-4-experimenting-with-energy-consumption-measurement)
+    - [Using Your Own Data](#using-your-own-data)
+    - [Cleaning Up](#cleaning-up)
+
 ## General Description
 
 ### Overview
@@ -42,7 +60,7 @@ cd your-repo
 ```
 
 ### Step 2: Set Up the Environment
-## Prerequisites
+#### Prerequisites
 
 Before using this tool, ensure that you have the following prerequisites installed:
 
@@ -71,9 +89,6 @@ docker-compose up -d
 This will pull the required Docker images and launch the services specified in the `docker-compose.yaml` file. 
 
 ### Step 3: Accessing PostgreSQL and Running Queries
-
-### Step 3: Accessing PostgreSQL and Running Queries
-
 Once the environment is up and running, you can access the PostgreSQL container to interact with the database. There are two ways to achieve this:
 
 1. Using `docker exec` to access the PostgreSQL container interactively:
@@ -112,7 +127,6 @@ Follow these steps to set up energy consumption measurement:
 4. Optionally, you can export power consumption metrics to JSON files for further analysis. Scaphandre allows storing power consumption metrics in JSON format.
 
 > Note: For more details on using Scaphandre, Prometheus, and Grafana for energy consumption monitoring, refer to the respective documentation.
-
 
 
 ## Using Your Own Data
@@ -213,4 +227,15 @@ docker exec -it docker_compose_postgresql_1 psql -U postgres -d demo
 
 You can now run queries and interact with your own data inside the "demo" database.
 
-Congratulations! You now have a fully functional Docker Compose environment for energy consumption benchmarking with PostgreSQL. Happy experimenting!
+## Cleaning Up
+
+When you have finished running benchmarking experiments, you can clean up the environment using the following command:
+
+```bash
+docker-compose down
+```
+
+This command will stop and remove all the containers and networks created by Docker Compose.
+
+
+Congratulations! You now have a fully functional Docker Compose environment for energy consumption benchmarking of PostgreSQL. Happy experimenting!
