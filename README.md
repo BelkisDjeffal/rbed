@@ -127,9 +127,9 @@ services:
       - "5434:5434"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./data:/data # Added this line to mount the 'data' directory
+      - ./data:/data
     networks:
-      - app_net
+      - scaphandre-network
 
   # Energy_measurement_tools
   # ... (rest of the configuration remains unchanged)
@@ -150,7 +150,7 @@ This will create and run the necessary containers, including PostgreSQL.
 With the Docker Compose environment up and running, you can now import your data into the PostgreSQL container. Open a terminal and run the following command to access the PostgreSQL container:
 
 ```bash
-docker exec -it task5_docker_compose_postgresql_1 psql -U postgres
+docker exec -it docker-compose_postgresql_1 psql -U postgres
 ```
 
 This will open the PostgreSQL command-line prompt inside the container. Now, create a new database (e.g., "demo") using the following SQL command:
@@ -164,7 +164,7 @@ Exit the PostgreSQL prompt by typing `\q`.
 Next, import your data from the dump file `your_database_dump.pgdata` into the "demo" database using the following command:
 
 ```bash
-docker exec -i task5_docker_compose_postgresql_1 psql -U postgres -d demo < /data/your_database_dump.pgdata
+docker exec -i docker-compose_postgresql_1 psql -U postgres -d demo < /data/your_database_dump.pgdata
 ```
 
 Replace `your_database_dump.pgdata` with the actual name of your dump file.
@@ -174,7 +174,7 @@ Replace `your_database_dump.pgdata` with the actual name of your dump file.
 Now, you have successfully imported your own database into the Docker Compose environment. To access and query your "demo" database, use the following command:
 
 ```bash
-docker exec -it task5_docker_compose_postgresql_1 psql -U postgres -d demo
+docker exec -it docker_compose_postgresql_1 psql -U postgres -d demo
 ```
 
 You can now run queries and interact with your own data inside the "demo" database.
