@@ -81,35 +81,104 @@ Follow these steps to set up energy consumption measurement:
 
 > Note: For more details on using Scaphandre, Prometheus, and Grafana for energy consumption monitoring, refer to the respective documentation.
 
-### Step 
 
-5: Using Custom Data
 
-To use your own data for experimentation, follow these steps:
+## Using Your Own Data
 
-1. Prepare your data files in the desired format.
+If you have your own PostgreSQL database that you want to use for experimentation, you can easily load it into the Docker Compose environment provided here. Follow the steps below to prepare and import your data:
 
-2. Create a directory named `data` in the same directory as your `docker-compose.yml` file.
+### Step 1: Dump Your PostgreSQL Database
 
-3. Place your data files inside the `data` directory.
+First, you need to create a dump of your PostgreSQL database using the `pg_dump` utility. Ensure you have the `pg_dump` tool installed on your local machine. Open a terminal and run the following command to create a dump of your database (replace `<your_database>` with the name of your database):
 
-4. Update the `docker-compose.yml` file to mount the `data` directory into the PostgreSQL container:
+```bash
+pg_dump -U <your_user> -d <your_database> > your_database_dump.pgdata
+```
 
-   ```yaml
-   ...
-   volumes:
-     - pgdata:/var/lib/postgresql/data
-     - ./data:/data
-   ...
-   ```
+This command will create a dump file named `your_database_dump.pgdata` containing your database's data and schema.
 
-5. Restart the Docker Compose environment:
+### Step 2: Prepare Your Data Directory
 
-   ```bash
-   docker-compose down
-   docker-compose up -d
-   ```
+Place the generated `your_database_dump.pgdata` file into a directory called `data` within your Docker Compose project directory. Your project structure should look like this:
 
-Now, you can run queries on your custom data inside the PostgreSQL container using the `psql` command as described in Step 3.
+```
+your_project_directory/
+|-- data/
+|   |-- your_database_dump.pgdata
+|-- docker-compose.yml
+|-- other_files_and_directories...
+```
+
+### Step 3: Modify the Docker Compose Configuration
+
+Open the `docker-compose.yml` file and update the `volumes` section to mount the `data` directory into the PostgreSQL container. Modify the `docker-compose.yml` as follows:
+
+```yaml
+version: '3'
+
+services:
+
+  # The postgresql image
+  postgresql:
+    image: postgres_with_provsql_and_tpch_4:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tpch
+    ports:
+      - "5434:5434"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./data:/data # Added this line to mount the 'data' directory
+    networks:
+      - app_net
+
+  # Energy_measurement_tools
+  # ... (rest of the configuration remains unchanged)
+```
+
+### Step 4: Start the Docker Compose Environment
+
+Now, start the Docker Compose environment with the following command:
+
+```bash
+docker-compose up -d
+```
+
+This will create and run the necessary containers, including PostgreSQL.
+
+### Step 5: Import Your Data into PostgreSQL
+
+With the Docker Compose environment up and running, you can now import your data into the PostgreSQL container. Open a terminal and run the following command to access the PostgreSQL container:
+
+```bash
+docker exec -it task5_docker_compose_postgresql_1 psql -U postgres
+```
+
+This will open the PostgreSQL command-line prompt inside the container. Now, create a new database (e.g., "demo") using the following SQL command:
+
+```sql
+CREATE DATABASE demo;
+```
+
+Exit the PostgreSQL prompt by typing `\q`.
+
+Next, import your data from the dump file `your_database_dump.pgdata` into the "demo" database using the following command:
+
+```bash
+docker exec -i task5_docker_compose_postgresql_1 psql -U postgres -d demo < /data/your_database_dump.pgdata
+```
+
+Replace `your_database_dump.pgdata` with the actual name of your dump file.
+
+### Step 6: Access and Query Your Database
+
+Now, you have successfully imported your own database into the Docker Compose environment. To access and query your "demo" database, use the following command:
+
+```bash
+docker exec -it task5_docker_compose_postgresql_1 psql -U postgres -d demo
+```
+
+You can now run queries and interact with your own data inside the "demo" database.
 
 Congratulations! You now have a fully functional Docker Compose environment for energy consumption benchmarking with PostgreSQL. Happy experimenting!
