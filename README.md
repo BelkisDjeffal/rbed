@@ -1,5 +1,3 @@
-Sure, I can help you with that! Let's start by writing the general description section for the documentation:
-
 ## General Description
 
 ### Overview
