@@ -37,31 +37,65 @@ In this section, we will guide you through the process of setting up and using t
 Begin by cloning this GitHub repository, which contains all the necessary files and configurations for the Docker Compose environment.
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/BelkisDjeffal/rbed.git
 cd your-repo
 ```
 
 ### Step 2: Set Up the Environment
+## Prerequisites
 
-Run the following command to start the Docker Compose environment:
+Before using this tool, ensure that you have the following prerequisites installed:
 
+1. Docker: The environment is orchestrated using Docker Compose, so you need to have Docker installed on your system.
+
+2. Docker Compose: To simplify the setup process, make sure you have Docker Compose installed as well
+
+#### Preparing the Environment
+
+Before starting the Docker Compose environment, it is important to ensure that the ports `8080`, `9090`, and `3000` are not already in use. If any of these ports are in use by another process, it can cause conflicts and prevent the services in the Docker Compose environment from starting properly. Follow the steps below to check and free up these ports if they are in use:
+
+   Check for if the port is already in use :
+   Open a terminal and run the following command to check if the port is in use:
+   ```
+   sudo lsof -i :<port>
+   ```
+   If there is a process using the port, the command will show the process ID (PID) of the process. To free up the port, use the following command, replacing `<PID>` with the actual process ID:
+   ```
+   sudo kill <PID>
+   ```
+#### Using the Environment
+With the ports freed up, you can now start the PostgreSQL Energy Consumption Benchmarking Environment using the following command:
 ```bash
 docker-compose up -d
 ```
-
-This will pull the required Docker images and launch the services specified in the `docker-compose.yml` file. Please note that you may need Docker and Docker Compose installed on your system to execute this command.
-
-> Note: If you encounter any issues, ensure that Docker and Docker Compose are properly installed and running on your system. Refer to the official Docker documentation for installation instructions.
+This will pull the required Docker images and launch the services specified in the `docker-compose.yaml` file. 
 
 ### Step 3: Accessing PostgreSQL and Running Queries
 
-With the environment up and running, you can now access the PostgreSQL container to execute queries. By default, the PostgreSQL service is exposed on port 5432. Use the following command to connect to the PostgreSQL database:
+### Step 3: Accessing PostgreSQL and Running Queries
+
+Once the environment is up and running, you can access the PostgreSQL container to interact with the database. There are two ways to achieve this:
+
+1. Using `docker exec` to access the PostgreSQL container interactively:
+
+   To access the PostgreSQL command-line interface, open a terminal and run the following command:
+
+   ```bash
+   docker exec -it docker-compose_postgresql_1 psql -U postgres
+   ```
+
+   This command allows you to directly interact with the PostgreSQL database as the `postgres` user. You can then execute SQL queries and perform administrative tasks.
+
+2. Executing Queries from Host Machine:
+
+   You can access the PostgreSQL container and execute the pre-loaded queries. To interact with the PostgreSQL database and execute the queries, use the following command:
 
 ```bash
-psql -h localhost -p 5432 -U postgres -d tpch -f path/to/query-file.sql
+docker exec -i postgres_with_provsql_and_tpch_4_container psql -U postgres -d tpch -f /queries/query-file.sql
 ```
+This command allows you to execute the pre-loaded queries directly from your host machine. The queries are already available in the PostgreSQL container, replace `query-file.sql` with your desired query file. If you want to execute queries without ProvSQL, use `queries.sql`, or for queries with ProvSQL enabled, use `queries_supported.sql`.
 
-Replace `path/to/query-file.sql` with the path to your desired query file. You can use `queries.sql` for queries without ProvSQL or `queries_supported.sql` for queries with ProvSQL enabled.
+Using either of these methods, you can interact with the PostgreSQL database and run queries as needed for your benchmarking and experimentation.
 
 ### Step 4: Experimenting with Energy Consumption Measurement
 
@@ -103,13 +137,13 @@ Place the generated `your_database_dump.pgdata` file into a directory called `da
 your_project_directory/
 |-- data/
 |   |-- your_database_dump.pgdata
-|-- docker-compose.yml
+|-- docker-compose.yaml
 |-- other_files_and_directories...
 ```
 
 ### Step 3: Modify the Docker Compose Configuration
 
-Open the `docker-compose.yml` file and update the `volumes` section to mount the `data` directory into the PostgreSQL container. Modify the `docker-compose.yml` as follows:
+Open the `docker-compose.yaml` file and update the `volumes` section to mount the `data` directory into the PostgreSQL container. Modify the `docker-compose.yaml` as follows:
 
 ```yaml
 version: '3'
