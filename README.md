@@ -20,11 +20,11 @@
 
 ### Overview
 
-The Docker Compose environment provided here is designed for conducting reproducible benchmarking experiments to compare the energy consumption of PostgreSQL with and without the ProvSQL plugin. It allows users to measure the power consumption at the global and process levels using various energy measurement tools. The environment includes a custom PostgreSQL image with pre-loaded TPCH benchmark data and the ProvSQL extension enabled. Users can execute queries both with and without ProvSQL enabled. Additionally, users have the flexibility to use their own data for experimentation.
+The Docker Compose environment provided here is designed for conducting reproducible benchmarking experiments to compare the energy consumption of PostgreSQL with and without the ProvSQL plugin. It allows users to measure the power consumption at the global and process levels using various energy measurement tools. The environment includes a custom PostgreSQL image with pre-loaded TPCH benchmark data and the ProvSQL extension installed. Users can execute queries both with and without ProvSQL. Additionally, users have the flexibility to use their own data for experimentation.
 
 ### Customized PostgreSQL Image
 
-Our custom PostgreSQL image serves as the core component of this environment. It comes with the TPCH benchmark data pre-loaded, enabling users to perform benchmarking tasks without any additional setup. Moreover, it has the ProvSQL extension enabled, facilitating benchmarking experiments that utilize ProvSQL features. The custom image is equipped with two query scripts: `queries.sql` and `queries_supported.sql`. The former is for executing queries without ProvSQL, while the latter is for executing queries with ProvSQL enabled.
+Our custom PostgreSQL image serves as the core component of this environment. It comes with the TPCH benchmark data pre-loaded, enabling users to perform benchmarking tasks without any additional setup. Moreover, it has the ProvSQL extension installed, facilitating benchmarking experiments that utilize ProvSQL features. The custom image is equipped with two query scripts: `queries.sql` and `queries_supported.sql`. The former is for executing queries without ProvSQL, while the latter is for executing queries with ProvSQL.
 
 ### Using the Provided TPCH Database
 
