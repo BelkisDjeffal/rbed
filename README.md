@@ -40,7 +40,7 @@ We also acknowledge the need for flexibility, as users may have specific dataset
 
 The environment includes several energy measurement tools that allow users to monitor and analyze power consumption metrics:
 
-1. Scaphandre: A versatile tool for measuring power consumption on both bare metal hosts and virtual machines. It provides process-level power consumption metrics and can export data to various destinations, including Prometheus and JSON files.
+1. Scaphandre: A versatile tool for measuring power consumption on both bare metal hosts and virtual machines. It provides process-level power consumption metrics and can export data to various destinations, including Prometheus.
 
 2. Prometheus: A powerful time-series database and monitoring system that can collect, store, and query power consumption metrics exported by Scaphandre.
 
@@ -123,8 +123,6 @@ Follow these steps to set up energy consumption measurement:
 2. Add Prometheus as a data source in Grafana. Use the URL `http://prometheus:9090` for the Prometheus server URL.
 
 3. Create custom dashboards in Grafana to visualize the power consumption metrics. You can use the `scaph_process_power_consumption_microwatts` metric to monitor process-level power consumption.
-
-4. Optionally, you can export power consumption metrics to JSON files for further analysis. Scaphandre allows storing power consumption metrics in JSON format.
 
 > Note: For more details on using Scaphandre, Prometheus, and Grafana for energy consumption monitoring, refer to the respective documentation.
 
