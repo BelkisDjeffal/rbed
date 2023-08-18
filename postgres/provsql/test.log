@@ -1,0 +1,66 @@
+make[1]: Entering directory '/home/belkis/provsql'
+make -f Makefile.internal installcheck with_llvm=no
+make[2]: Entering directory '/home/belkis/provsql'
+/usr/lib/postgresql/14/lib/pgxs/src/makefiles/../../src/test/regress/pg_regress --inputdir=./ --bindir='/usr/lib/postgresql/14/bin'    --load-extension=plpgsql --inputdir=test --outputdir=/tmp/tmp.provsqlh2IU --schedule test/schedule --dbname=contrib_regression 
+(using postmaster on Unix socket, default port)
+============== dropping database "contrib_regression" ==============
+DROP DATABASE
+============== creating database "contrib_regression" ==============
+CREATE DATABASE
+ALTER DATABASE
+============== installing plpgsql                     ==============
+CREATE EXTENSION
+============== running regression test queries        ==============
+test setup                        ... ok           74 ms
+test add_provenance               ... ok           53 ms
+test provenance_in_from           ... ok           19 ms
+parallel group (3 tests):  security counting formula
+     security                     ... ok           70 ms
+     formula                      ... ok           82 ms
+     counting                     ... ok           74 ms
+test deterministic                ... ok           13 ms
+test union_all                    ... ok           41 ms
+test union                        ... ok           34 ms
+test nested_union                 ... ok           44 ms
+test union_nary                   ... ok           38 ms
+test distinct                     ... ok           34 ms
+test group_by_provenance          ... ok           20 ms
+test aggregation                  ... ok           52 ms
+test agg_distinct                 ... ok           42 ms
+test except                       ... ok           31 ms
+test null                         ... ok           28 ms
+test unsupported_features         ... ok           12 ms
+test create_as                    ... ok           40 ms
+test no_zero_gate                 ... ok           21 ms
+test probability_setup            ... ok           22 ms
+test viewing_setup                ... ok           30 ms
+parallel group (2 tests):  possible_worlds monte_carlo
+     possible_worlds              ... ok           49 ms
+     monte_carlo                  ... ok           57 ms
+parallel group (3 tests):  dsharp weightmc d4
+     d4                           ... FAILED       23 ms
+     dsharp                       ... FAILED       21 ms
+     weightmc                     ... FAILED       23 ms
+parallel group (4 tests):  treedec_simple independent treedec default_probability_evaluate
+     treedec_simple               ... ok           16 ms
+     treedec                      ... ok           24 ms
+     default_probability_evaluate ... ok           25 ms
+     independent                  ... ok           24 ms
+test view_circuit_multiple        ... ok           96 ms
+test where_provenance             ... ok           64 ms
+test tutorial                     ... ok          102 ms
+test serialize_deserialize        ... ok           34 ms
+parallel group (2 tests):  grouping_sets group_by_empty
+     group_by_empty               ... ok           17 ms
+     grouping_sets                ... ok            9 ms
+
+=======================
+ 3 of 37 tests failed. 
+=======================
+
+The differences that caused some tests to fail can be viewed in the
+file "/tmp/tmp.provsqlh2IU/regression.diffs".  A copy of the test summary that you see
+above is saved in the file "/tmp/tmp.provsqlh2IU/regression.out".
+
+make[2]: Leaving directory '/home/belkis/provsql'
+make[1]: Leaving directory '/home/belkis/provsql'
